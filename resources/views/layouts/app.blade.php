@@ -5,7 +5,7 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="csrf-token" content="{{ csrf_token() }}">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <title>{{ config('app.name') }}</title>
 
 </head>
 <body>
@@ -13,13 +13,13 @@
     <div class="content menu">
         <div class="menu-block">
             <div class="menu-logo"></div>
-            <div class="menu-logo-name">Project</div>
+            <div class="menu-logo-name">Проект</div>
         </div>
         <div class="menu-block">
-            <div class="menu-item">Item</div>
-            <div class="menu-item">Item</div>
-            <div class="menu-item">Item</div>
-            <div class="menu-item">Item</div>
+            <div class="menu-item">Единица</div>
+            <div class="menu-item">Единица</div>
+            <div class="menu-item">Единица</div>
+            <div class="menu-item">Единица</div>
         </div>
     </div>
 </header>
