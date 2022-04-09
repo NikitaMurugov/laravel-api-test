@@ -1,21 +1,21 @@
 <template>
     <div class="container">
         <div class="main-page">HOME PAGE</div>
-        {{ posts.data }}
+        {{ posts }}
     </div>
 </template>
 
 <script>
     export default {
-        data: function () {
+        data() {
             return {
                 posts: null,
             }
         },
         mounted() {
-            axios
-                .get('http://laravel-api-test/api/posts')
-                .then(response => (this.posts = response))
+            // axios
+            //     .get('http://laravel-api-test/api/posts')
+            //     .then(response => (this.posts = response))
         }
     }
 </script>

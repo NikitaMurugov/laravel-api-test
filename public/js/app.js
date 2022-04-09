@@ -5318,12 +5318,9 @@ __webpack_require__.r(__webpack_exports__);
       posts: null
     };
   },
-  mounted: function mounted() {
-    var _this = this;
-
-    axios.get('http://laravel-api-test/api/posts').then(function (response) {
-      return _this.posts = response;
-    });
+  mounted: function mounted() {// axios
+    //     .get('http://laravel-api-test/api/posts')
+    //     .then(response => (this.posts = response))
   }
 });
 
@@ -5377,9 +5374,46 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
-  mounted: function mounted() {
-    console.log('Component mounted.');
+  data: function data() {
+    return {
+      form: {
+        title: '',
+        description: ''
+      },
+      csrf: document.querySelector('meta[name="csrf-token"]').getAttribute('content'),
+      validationErrors: ''
+    };
+  },
+  mounted: function mounted() {},
+  methods: {
+    sendData: function sendData() {
+      var _this = this;
+
+      axios.post('http://laravel-api-test/api/post/submit', {
+        '_token': this.csrf,
+        'title': this.form.title,
+        'description': this.form.description
+      }).then(function (response) {
+        document.querySelector('#success').html(response.data.message);
+      })["catch"](function (error) {
+        if (error.response.status == 422) {
+          _this.validationErrors = error.response.data.errors;
+        }
+      });
+    }
   }
 });
 
@@ -5408,6 +5442,20 @@ window.Vue = (__webpack_require__(/*! vue */ "./node_modules/vue/dist/vue.esm.js
 
 
 
+vue__WEBPACK_IMPORTED_MODULE_4__["default"].component('validation-errors', {
+  data: function data() {
+    return {};
+  },
+  props: ['errors'],
+  template: "<div v-if=\"validationErrors\">\n                <ul class=\"alert invalid-text\">\n                    <li v-for=\"(value, key, index) in validationErrors\">{{ value }}</li>\n                </ul>\n            </div>",
+  computed: {
+    validationErrors: function validationErrors() {
+      var errors = Object.values(this.errors);
+      errors = errors.flat();
+      return errors;
+    }
+  }
+});
 vue__WEBPACK_IMPORTED_MODULE_4__["default"].use(vue_router__WEBPACK_IMPORTED_MODULE_5__["default"]);
 var router = new vue_router__WEBPACK_IMPORTED_MODULE_5__["default"]({
   mode: 'history',
@@ -5424,11 +5472,16 @@ var router = new vue_router__WEBPACK_IMPORTED_MODULE_5__["default"]({
 var app = new vue__WEBPACK_IMPORTED_MODULE_4__["default"]({
   el: '#app',
   data: {},
-  router: router,
+  // http:   {
+  //     headers: {
+  //         'X-CSRF-Token': $('meta[name=_token]').attr('content')
+  //     }
+  // },
   components: {
     "menu-component": _components_Menu__WEBPACK_IMPORTED_MODULE_1__["default"],
     "footer-component": _components_Footer__WEBPACK_IMPORTED_MODULE_2__["default"]
-  }
+  },
+  router: router
 });
 
 /***/ }),
@@ -28248,7 +28301,7 @@ var render = function () {
   var _c = _vm._self._c || _h
   return _c("div", { staticClass: "container" }, [
     _c("div", { staticClass: "main-page" }, [_vm._v("HOME PAGE")]),
-    _vm._v("\n    " + _vm._s(_vm.posts.data) + "\n"),
+    _vm._v("\n    " + _vm._s(_vm.posts) + "\n"),
   ])
 }
 var staticRenderFns = []
@@ -28327,18 +28380,83 @@ var render = function () {
   var _vm = this
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
-  return _vm._m(0)
+  return _c(
+    "div",
+    { staticClass: "container" },
+    [
+      _c(
+        "form",
+        {
+          attrs: { method: "post" },
+          on: {
+            submit: function ($event) {
+              $event.preventDefault()
+              return _vm.sendData()
+            },
+          },
+        },
+        [
+          _c("label", [
+            _vm._v("\n            Заголовок\n            "),
+            _c("input", {
+              directives: [
+                {
+                  name: "model",
+                  rawName: "v-model",
+                  value: _vm.form.title,
+                  expression: "form.title",
+                },
+              ],
+              attrs: { type: "text", name: "title" },
+              domProps: { value: _vm.form.title },
+              on: {
+                input: function ($event) {
+                  if ($event.target.composing) {
+                    return
+                  }
+                  _vm.$set(_vm.form, "title", $event.target.value)
+                },
+              },
+            }),
+          ]),
+          _vm._v(" "),
+          _c("label", [
+            _vm._v("\n            Описание\n            "),
+            _c("textarea", {
+              directives: [
+                {
+                  name: "model",
+                  rawName: "v-model",
+                  value: _vm.form.description,
+                  expression: "form.description",
+                },
+              ],
+              domProps: { value: _vm.form.description },
+              on: {
+                input: function ($event) {
+                  if ($event.target.composing) {
+                    return
+                  }
+                  _vm.$set(_vm.form, "description", $event.target.value)
+                },
+              },
+            }),
+          ]),
+          _vm._v(" "),
+          _c("input", { attrs: { type: "submit", value: "Создать" } }),
+        ]
+      ),
+      _vm._v(" "),
+      _c("div", { attrs: { id: "success" } }),
+      _vm._v(" "),
+      _vm.validationErrors
+        ? _c("validation-errors", { attrs: { errors: _vm.validationErrors } })
+        : _vm._e(),
+    ],
+    1
+  )
 }
-var staticRenderFns = [
-  function () {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c("div", { staticClass: "container" }, [
-      _c("div", { staticClass: "main-page" }, [_vm._v("POST ADD")]),
-    ])
-  },
-]
+var staticRenderFns = []
 render._withStripped = true
 
 
