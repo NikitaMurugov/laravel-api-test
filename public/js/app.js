@@ -5311,9 +5311,19 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
+  data: function data() {
+    return {
+      posts: null
+    };
+  },
   mounted: function mounted() {
-    console.log('Home page.');
+    var _this = this;
+
+    axios.get('http://laravel-api-test/api/posts').then(function (response) {
+      return _this.posts = response;
+    });
   }
 });
 
@@ -5402,7 +5412,7 @@ vue__WEBPACK_IMPORTED_MODULE_4__["default"].use(vue_router__WEBPACK_IMPORTED_MOD
 var router = new vue_router__WEBPACK_IMPORTED_MODULE_5__["default"]({
   mode: 'history',
   routes: [{
-    path: '/',
+    path: '/home',
     name: 'home',
     component: _components_Home__WEBPACK_IMPORTED_MODULE_0__["default"]
   }, {
@@ -5413,9 +5423,7 @@ var router = new vue_router__WEBPACK_IMPORTED_MODULE_5__["default"]({
 });
 var app = new vue__WEBPACK_IMPORTED_MODULE_4__["default"]({
   el: '#app',
-  data: {
-    timestamp: ''
-  },
+  data: {},
   router: router,
   components: {
     "menu-component": _components_Menu__WEBPACK_IMPORTED_MODULE_1__["default"],
@@ -28211,7 +28219,7 @@ var render = function () {
   var _vm = this
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
-  return _c("div", { staticClass: "content" }, [
+  return _c("div", { staticClass: "container" }, [
     _vm._v("\n    " + _vm._s(_vm.timestamp) + "\n"),
   ])
 }
@@ -28238,18 +28246,12 @@ var render = function () {
   var _vm = this
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
-  return _vm._m(0)
+  return _c("div", { staticClass: "container" }, [
+    _c("div", { staticClass: "main-page" }, [_vm._v("HOME PAGE")]),
+    _vm._v("\n    " + _vm._s(_vm.posts.data) + "\n"),
+  ])
 }
-var staticRenderFns = [
-  function () {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c("div", { staticClass: "container" }, [
-      _c("div", { staticClass: "main-page" }, [_vm._v("HOME PAGE")]),
-    ])
-  },
-]
+var staticRenderFns = []
 render._withStripped = true
 
 
@@ -28272,16 +28274,18 @@ var render = function () {
   var _vm = this
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
-  return _c("div", { staticClass: "content menu" }, [
+  return _c("div", { staticClass: "container menu" }, [
     _vm._m(0),
     _vm._v(" "),
     _c(
       "div",
       { staticClass: "menu-block" },
       [
-        _c("router-link", { attrs: { to: "/" } }, [_vm._v(" Главная")]),
+        _c("router-link", { attrs: { to: { name: "home" } } }, [
+          _vm._v(" Главная"),
+        ]),
         _vm._v(" "),
-        _c("router-link", { attrs: { to: "/post/add" } }, [
+        _c("router-link", { attrs: { to: { name: "postAdd" } } }, [
           _vm._v("Создать пост"),
         ]),
       ],
