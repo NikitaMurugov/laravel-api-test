@@ -6,7 +6,11 @@ import VueRouter from 'vue-router';
 import Home from './components/Home';
 import Menu from './components/Menu';
 import Footer from './components/Footer';
+import ModalComponent from './components/ModalComponent';
+
 import PostAdd from './components/PostAdd';
+import PostCard from './components/PostCard';
+
 
 Vue.component('validation-errors', {
     data(){
@@ -51,15 +55,14 @@ const app = new Vue({
 
     el: '#app',
     data: {
+        modal: {
+            title: 'Успех',
+            message: 'Сообщение успешно отправлено',
+        }
     },
-    // http:   {
-    //     headers: {
-    //         'X-CSRF-Token': $('meta[name=_token]').attr('content')
-    //     }
-    // },
     components: {
         "menu-component": Menu,
-        "footer-component": Footer
+        "footer-component": Footer,
     },
     router
 });

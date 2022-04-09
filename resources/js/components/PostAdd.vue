@@ -1,5 +1,7 @@
 <template>
+
     <div class="container">
+        <modal-component v-if="modalData.visible" :info="modalData"></modal-component>
         <form @submit.prevent="sendData()" method="post">
             <label>
                 Заголовок
@@ -17,8 +19,7 @@
 </template>
 
 <script>
-    import ModalSuccess from "./ModalSuccess";
-
+import ModalComponent from "./ModalComponent";
     export default {
         data() {
             return {
@@ -27,14 +28,20 @@
                     description: '',
                 },
                 csrf: document.querySelector('meta[name="csrf-token"]').getAttribute('content'),
-                validationErrors: ''
+                validationErrors: '',
+                success: false,
+                modalData: {
+                    title:'успех',
+                    message:'пост успешно добавлен',
+                    visible: false,
+                }
             }
-        },
-        components: {
-            ModalSuccess
         },
         mounted() {
 
+        },
+        components: {
+            "modal-component": ModalComponent,
         },
         methods: {
             sendData: function () {
@@ -44,14 +51,19 @@
                             'title': this.form.title,
                             'description': this.form.description,
                         })
-                        .then((response)=>{
-                            document.querySelector('#success').html(response.data.message)
-                        })
-                        .catch((error) => {
-                            if (error.response.status == 422){
-                                this.validationErrors = error.response.data.errors;
-                            }
-                        });
+                    .then((response)=>{
+                        this.modalData.visible = true;
+                        this.validationErrors = null;
+                        setTimeout(closeModal(), 500);
+                    })
+                    .catch((error) => {
+                        if (error.response.status == 422){
+                            this.validationErrors = error.response.data.errors;
+                        }
+                    });
+            },
+            closeModal: function() {
+                this.modalData.visible = true;
             }
         },
     }
