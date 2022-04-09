@@ -33,7 +33,7 @@ class PostRequest extends FormRequest
     {
         return [
             'title.required' => 'Поле заголовок обязательно для заполнения',
-            'description.required' => 'Поле описание Обязательно для заполнения'
+            'description.required' => 'Поле описание oбязательно для заполнения'
         ];
     }
 }

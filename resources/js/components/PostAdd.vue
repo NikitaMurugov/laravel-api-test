@@ -17,6 +17,7 @@
 </template>
 
 <script>
+    import ModalSuccess from "./ModalSuccess";
 
     export default {
         data() {
@@ -28,6 +29,9 @@
                 csrf: document.querySelector('meta[name="csrf-token"]').getAttribute('content'),
                 validationErrors: ''
             }
+        },
+        components: {
+            ModalSuccess
         },
         mounted() {
 
