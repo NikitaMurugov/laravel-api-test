@@ -2,19 +2,19 @@
 
     <div class="container">
         <modal-component v-if="modalData.visible" :info="modalData"></modal-component>
-        <form @submit.prevent="sendData()" method="post">
-            <label>
-                Заголовок
-                <input type="text" name="title" v-model="form.title">
-            </label>
-            <label>
-                Описание
-                <textarea v-model="form.description"></textarea>
-            </label>
-            <input  type="submit" value="Создать">
+
+        <form @submit.prevent="sendData()" method="post" class="">
+            <div class="mb-3">
+                <label for="exampleFormControlInput1" class="form-label">Описание</label>
+                <input type="text" class="form-control" id="exampleFormControlInput1" placeholder="Название поста" v-model="form.title">
+            </div>
+            <div class="mb-3" >
+                <label for="exampleFormControlTextarea1" class="form-label">Описание</label>
+                <textarea class="form-control" id="exampleFormControlTextarea1" rows="3" v-model="form.description"></textarea>
+            </div>
+            <input class="w-100 btn btn-lg btn-primary" type="submit" value="Создать">
+            <validation-errors :errors="validationErrors" v-if="validationErrors"></validation-errors>
         </form>
-        <div id="success"></div>
-        <validation-errors :errors="validationErrors" v-if="validationErrors"></validation-errors>
     </div>
 </template>
 
@@ -63,7 +63,7 @@ import ModalComponent from "./ModalComponent";
                     });
             },
             closeModal: function() {
-                this.modalData.visible = true;
+                this.modalData.visible = false;
             }
         },
     }

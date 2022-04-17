@@ -43,6 +43,12 @@ const router = new VueRouter({
             name: 'home',
             component: Home
         },
+
+        {
+            path: '/post/:postId(\\d+)',
+            name: 'postGet',
+            component: PostCard
+        },
         {
             path: '/post/add',
             name: 'postAdd',
