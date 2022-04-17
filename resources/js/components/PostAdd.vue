@@ -14,7 +14,9 @@
             </div>
             <input class="w-100 btn btn-lg btn-primary" type="submit" value="Создать">
             <validation-errors :errors="validationErrors" v-if="validationErrors"></validation-errors>
+
         </form>
+
     </div>
 </template>
 
@@ -27,6 +29,7 @@ import ModalComponent from "./ModalComponent";
                     title: '',
                     description: '',
                 },
+                apipath:  window.location.protocol + '//' + window.location.hostname + "/api",
                 csrf: document.querySelector('meta[name="csrf-token"]').getAttribute('content'),
                 validationErrors: '',
                 success: false,
@@ -38,7 +41,6 @@ import ModalComponent from "./ModalComponent";
             }
         },
         mounted() {
-
         },
         components: {
             "modal-component": ModalComponent,
@@ -46,7 +48,7 @@ import ModalComponent from "./ModalComponent";
         methods: {
             sendData: function () {
                 axios
-                    .post('http://laravel-api-test/api/post/submit',  {
+                    .post(this.apipath + '/post/submit',  {
                             '_token': this.csrf,
                             'title': this.form.title,
                             'description': this.form.description,

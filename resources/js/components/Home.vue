@@ -10,7 +10,7 @@
                         <p class="card-text">{{ post.description }}</p>
                         <div class="d-flex justify-content-between align-items-center">
                             <div class="btn-group">
-                                <button type="button" class="btn btn-sm btn-outline-secondary"><router-link :to="post/post.id">Позырить</router-link> </button>
+                                <button type="button" class="btn btn-sm btn-outline-secondary"><router-link :to="{ name: 'postGet', params: { id: post.id }}">Позырить</router-link> </button>
                                 <button type="button" class="btn btn-sm btn-outline-secondary">Изменить</button>
                                 <button type="button" class="btn btn-sm btn-outline-secondary">Удолить</button>
                             </div>
@@ -31,11 +31,12 @@
         data() {
             return {
                 posts: null,
+                apipath:  window.location.protocol + '//' + window.location.hostname + "/api",
             }
         },
         mounted() {
                 axios
-                    .get('http://laravel-api-test/api/posts')
+                    .get(this.apipath + '/posts?limit='+6)
                     .then(response => (this.posts = response.data))
             // setInterval( function () {
             //     axios

@@ -2,6 +2,7 @@ require('./bootstrap');
 
 window.Vue = require('vue').default;
 import Vue from 'vue';
+
 import VueRouter from 'vue-router';
 import Home from './components/Home';
 import Menu from './components/Menu';
@@ -45,7 +46,7 @@ const router = new VueRouter({
         },
 
         {
-            path: '/post/:postId(\\d+)',
+            path: '/post/:id(\\d+)',
             name: 'postGet',
             component: PostCard
         },

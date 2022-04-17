@@ -5336,13 +5336,14 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   data: function data() {
     return {
-      posts: null
+      posts: null,
+      apipath: window.location.protocol + '//' + window.location.hostname + "/api"
     };
   },
   mounted: function mounted() {
     var _this = this;
 
-    axios.get('http://laravel-api-test/api/posts').then(function (response) {
+    axios.get(this.apipath + '/posts?limit=' + 6).then(function (response) {
       return _this.posts = response.data;
     }); // setInterval( function () {
     //     axios
@@ -5463,6 +5464,8 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
 
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   data: function data() {
@@ -5471,6 +5474,7 @@ __webpack_require__.r(__webpack_exports__);
         title: '',
         description: ''
       },
+      apipath: window.location.protocol + '//' + window.location.hostname + "/api",
       csrf: document.querySelector('meta[name="csrf-token"]').getAttribute('content'),
       validationErrors: '',
       success: false,
@@ -5489,7 +5493,7 @@ __webpack_require__.r(__webpack_exports__);
     sendData: function sendData() {
       var _this = this;
 
-      axios.post('http://laravel-api-test/api/post/submit', {
+      axios.post(this.apipath + '/post/submit', {
         '_token': this.csrf,
         'title': this.form.title,
         'description': this.form.description
@@ -5560,7 +5564,7 @@ var router = new vue_router__WEBPACK_IMPORTED_MODULE_7__["default"]({
     name: 'home',
     component: _components_Home__WEBPACK_IMPORTED_MODULE_0__["default"]
   }, {
-    path: '/post/:postId(\\d+)',
+    path: '/post/:id(\\d+)',
     name: 'postGet',
     component: _components_PostCard__WEBPACK_IMPORTED_MODULE_5__["default"]
   }, {
@@ -29013,9 +29017,18 @@ var render = function () {
                           attrs: { type: "button" },
                         },
                         [
-                          _c("router-link", { attrs: { to: post / post.id } }, [
-                            _vm._v("Позырить"),
-                          ]),
+                          _c(
+                            "router-link",
+                            {
+                              attrs: {
+                                to: {
+                                  name: "postGet",
+                                  params: { id: post.id },
+                                },
+                              },
+                            },
+                            [_vm._v("Позырить")]
+                          ),
                         ],
                         1
                       ),

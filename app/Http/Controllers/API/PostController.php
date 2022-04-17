@@ -14,9 +14,16 @@ class PostController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
-        $posts = Post::all()->toArray();
+
+        if ($request->query('limit')) {
+
+            $posts = Post::take($request->query('limit'))->orderBy('created_at', 'desc')->get()->toArray();
+
+        } else {
+            $posts = Post::all()->toArray();
+        }
         return response()->json($posts, 200);
     }
 
